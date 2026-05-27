@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'buyer_home_screen.dart';
+import 'jastiper_home_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-
-  final String role;
-
-  const LoginScreen({
-    super.key,
-    required this.role,
-  });
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
     return Scaffold(
       backgroundColor: const Color(0xFFFDF7FF),
 
@@ -25,12 +28,12 @@ class LoginScreen extends StatelessWidget {
 
               children: [
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 60),
 
                 const Text(
                   "Welcome Back 👋",
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 34,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF4B5563),
                   ),
@@ -41,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                 const Text(
                   "Login untuk melanjutkan ke aplikasi Titipy",
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 16,
                     color: Colors.grey,
                   ),
                 ),
@@ -58,6 +61,8 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
+                  controller: emailController,
+
                   decoration: InputDecoration(
                     hintText: "Masukkan email",
 
@@ -83,6 +88,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
 
                   decoration: InputDecoration(
@@ -105,7 +111,73 @@ class LoginScreen extends StatelessWidget {
                   height: 55,
 
                   child: ElevatedButton(
-                    onPressed: () {},
+
+                    onPressed: () async {
+
+                      var url = Uri.parse(
+                        "http://192.168.0.107/titipy_api/login.php",
+                      );
+
+                      var response = await http.post(
+                        url,
+
+                        body: {
+                          "email": emailController.text,
+                          "password": passwordController.text,
+                        },
+                      );
+
+                      var data = jsonDecode(response.body);
+
+                      if (data["success"] == true) {
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Login berhasil"),
+                          ),
+                        );
+
+                        await Future.delayed(
+                          const Duration(seconds: 1),
+                        );
+
+                        String role = data["data"]["role"];
+
+                        if (role == "buyer") {
+
+                          Navigator.pushReplacement(
+                            context,
+
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const BuyerHomeScreen(),
+                            ),
+                          );
+
+                        } else {
+
+                          Navigator.pushReplacement(
+                            context,
+
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const JastiperHomeScreen(),
+                            ),
+                          );
+
+                        }
+
+                      } else {
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Email atau password salah"),
+                          ),
+                        );
+
+                      }
+
+                    },
 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFD8B4FE),
@@ -129,16 +201,20 @@ class LoginScreen extends StatelessWidget {
 
                 Center(
                   child: TextButton(
+
                     onPressed: () {
+
                       Navigator.push(
                         context,
 
                         MaterialPageRoute(
-                          builder: (context) => RegisterScreen(
-                            role: role,
+                          builder: (context) =>
+                              const RegisterScreen(
+                            role: 'buyer',
                           ),
                         ),
                       );
+
                     },
 
                     child: const Text(

@@ -59,9 +59,7 @@ class RoleScreen extends StatelessWidget {
 
                       MaterialPageRoute(
                         builder: (context) =>
-                            const LoginScreen(
-                          role: 'buyer',
-                        ),
+                            const LoginScreen(),
                       ),
                     );
                   },
@@ -97,9 +95,7 @@ class RoleScreen extends StatelessWidget {
 
                       MaterialPageRoute(
                         builder: (context) =>
-                            const LoginScreen(
-                          role: 'jastiper',
-                        ),
+                            const LoginScreen(),
                       ),
                     );
                   },
