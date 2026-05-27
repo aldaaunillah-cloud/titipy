@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'buyer_detail_screen.dart';
+import 'jastiper_verification_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+
+  final String role;
+
+  const RegisterScreen({
+    super.key,
+    required this.role,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +132,31 @@ class RegisterScreen extends StatelessWidget {
 
                   child: ElevatedButton(
                     onPressed: () {
-                    Navigator.push(
-                      context,
 
-                      MaterialPageRoute(
-                        builder: (context) => const BuyerDetailScreen(),
-                      ),
-                    );
-                  },
+                      if (role == 'buyer') {
+
+                        Navigator.push(
+                          context,
+
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const BuyerDetailScreen(),
+                          ),
+                        );
+
+                      } else {
+
+                        Navigator.push(
+                          context,
+
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const JastiperVerificationScreen(),
+                          ),
+                        );
+
+                      }
+                    },
 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFD8B4FE),
