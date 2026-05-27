@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 
 class RoleScreen extends StatelessWidget {
   const RoleScreen({super.key});
@@ -52,10 +53,19 @@ class RoleScreen extends StatelessWidget {
                 height: 55,
 
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
+                  },
 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFD8B4FE),
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
@@ -78,7 +88,15 @@ class RoleScreen extends StatelessWidget {
                 height: 55,
 
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
+                  },
 
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(
