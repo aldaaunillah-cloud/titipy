@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'buyer_home_screen.dart';
 
 class BuyerDetailScreen extends StatelessWidget {
   const BuyerDetailScreen({super.key});
@@ -114,7 +115,16 @@ class BuyerDetailScreen extends StatelessWidget {
                   height: 55,
 
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const BuyerHomeScreen(),
+                        ),
+                      );
+                    },
 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFD8B4FE),

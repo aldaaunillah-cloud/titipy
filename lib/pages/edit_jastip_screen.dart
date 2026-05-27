@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'jastiper_home_screen.dart';
 
-class JastiperVerificationScreen extends StatelessWidget {
-  const JastiperVerificationScreen({super.key});
+class EditJastipScreen extends StatelessWidget {
+  const EditJastipScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +22,14 @@ class JastiperVerificationScreen extends StatelessWidget {
             color: Color(0xFF4B5563),
           ),
         ),
+
+        title: const Text(
+          "Edit Jastip",
+          style: TextStyle(
+            color: Color(0xFF4B5563),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
 
       body: SafeArea(
@@ -35,60 +42,28 @@ class JastiperVerificationScreen extends StatelessWidget {
 
               children: [
 
-                const Text(
-                  "Verifikasi Jastipers 🪪",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4B5563),
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                const Text(
-                  "Lengkapi data identitas untuk meningkatkan keamanan transaksi",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-
-                const SizedBox(height: 40),
-
                 Center(
                   child: Container(
-                    width: 120,
-                    height: 120,
+                    width: 150,
+                    height: 150,
 
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(24),
                     ),
 
                     child: const Icon(
-                      Icons.add_a_photo_outlined,
-                      size: 40,
+                      Icons.edit_outlined,
+                      size: 50,
                       color: Color(0xFFD8B4FE),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 15),
-
-                const Center(
-                  child: Text(
-                    "Upload Foto Profil",
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 30),
+                const SizedBox(height: 35),
 
                 const Text(
-                  "Nomor HP",
+                  "Nama Konser",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
@@ -97,10 +72,66 @@ class JastiperVerificationScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
-                  keyboardType: TextInputType.phone,
+                  controller: TextEditingController(
+                    text: "SEVENTEEN RIGHT HERE",
+                  ),
 
                   decoration: InputDecoration(
-                    hintText: "Masukkan nomor HP",
+                    filled: true,
+                    fillColor: Colors.white,
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                const Text(
+                  "Nama Merchandise",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                TextField(
+                  controller: TextEditingController(
+                    text: "Official Lightstick Ver.3",
+                  ),
+
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                const Text(
+                  "Harga",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                TextField(
+                  controller: TextEditingController(
+                    text: "850000",
+                  ),
+
+                  decoration: InputDecoration(
+                    prefixText: "Rp ",
 
                     filled: true,
                     fillColor: Colors.white,
@@ -115,7 +146,7 @@ class JastiperVerificationScreen extends StatelessWidget {
                 const SizedBox(height: 25),
 
                 const Text(
-                  "Alamat Rumah",
+                  "Stock",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
@@ -124,36 +155,11 @@ class JastiperVerificationScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
-                  maxLines: 4,
+                  controller: TextEditingController(
+                    text: "10",
+                  ),
 
                   decoration: InputDecoration(
-                    hintText: "Masukkan alamat rumah lengkap",
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  "Instagram / Twitter",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "@username",
-
                     filled: true,
                     fillColor: Colors.white,
 
@@ -172,14 +178,7 @@ class JastiperVerificationScreen extends StatelessWidget {
 
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const JastiperHomeScreen(),
-                        ),
-                      );
+                      Navigator.pop(context);
                     },
 
                     style: ElevatedButton.styleFrom(
@@ -191,7 +190,7 @@ class JastiperVerificationScreen extends StatelessWidget {
                     ),
 
                     child: const Text(
-                      "Kirim Verifikasi",
+                      "Simpan Perubahan",
                       style: TextStyle(
                         fontSize: 17,
                         color: Colors.white,
