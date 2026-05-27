@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
-import 'register_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class BuyerDetailScreen extends StatelessWidget {
+  const BuyerDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFDF7FF),
+
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFDF7FF),
+        elevation: 0,
+
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xFF4B5563),
+          ),
+        ),
+      ),
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -19,12 +34,10 @@ class LoginScreen extends StatelessWidget {
 
               children: [
 
-                const SizedBox(height: 40),
-
                 const Text(
-                  "Welcome Back 👋",
+                  "Data Pembeli 📦",
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF4B5563),
                   ),
@@ -33,17 +46,17 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 const Text(
-                  "Login untuk melanjutkan ke aplikasi Titipy",
+                  "Lengkapi data diri untuk mempermudah proses pengiriman barang",
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey,
                   ),
                 ),
 
-                const SizedBox(height: 50),
+                const SizedBox(height: 40),
 
                 const Text(
-                  "Email",
+                  "Nomor HP",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
@@ -52,8 +65,10 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
+                  keyboardType: TextInputType.phone,
+
                   decoration: InputDecoration(
-                    hintText: "Masukkan email",
+                    hintText: "Masukkan nomor HP",
 
                     filled: true,
                     fillColor: Colors.white,
@@ -68,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 25),
 
                 const Text(
-                  "Password",
+                  "Alamat Pengiriman",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
@@ -77,10 +92,10 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
-                  obscureText: true,
+                  maxLines: 4,
 
                   decoration: InputDecoration(
-                    hintText: "Masukkan password",
+                    hintText: "Masukkan alamat lengkap",
 
                     filled: true,
                     fillColor: Colors.white,
@@ -110,33 +125,10 @@ class LoginScreen extends StatelessWidget {
                     ),
 
                     child: const Text(
-                      "Login",
+                      "Selesaikan Registrasi",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterScreen(),
-                        ),
-                      );
-                    },
-
-                    child: const Text(
-                      "Belum punya akun? Register",
-                      style: TextStyle(
-                        color: Color(0xFFD8B4FE),
                       ),
                     ),
                   ),

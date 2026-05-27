@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'register_screen.dart';
+import 'buyer_detail_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 40),
 
                 const Text(
-                  "Welcome Back 👋",
+                  "Create Account ✨",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 const Text(
-                  "Login untuk melanjutkan ke aplikasi Titipy",
+                  "Daftar akun baru untuk menggunakan aplikasi Titipy",
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey,
@@ -41,6 +41,31 @@ class LoginScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 50),
+
+                const Text(
+                  "Nama Lengkap",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "Masukkan nama lengkap",
+
+                    filled: true,
+                    fillColor: Colors.white,
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
 
                 const Text(
                   "Email",
@@ -99,7 +124,15 @@ class LoginScreen extends StatelessWidget {
                   height: 55,
 
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    Navigator.push(
+                      context,
+
+                      MaterialPageRoute(
+                        builder: (context) => const BuyerDetailScreen(),
+                      ),
+                    );
+                  },
 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFD8B4FE),
@@ -110,7 +143,7 @@ class LoginScreen extends StatelessWidget {
                     ),
 
                     child: const Text(
-                      "Login",
+                      "Lanjut",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -124,17 +157,11 @@ class LoginScreen extends StatelessWidget {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterScreen(),
-                        ),
-                      );
+                      Navigator.pop(context);
                     },
 
                     child: const Text(
-                      "Belum punya akun? Register",
+                      "Sudah punya akun? Login",
                       style: TextStyle(
                         color: Color(0xFFD8B4FE),
                       ),
