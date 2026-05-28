@@ -54,14 +54,18 @@ class RoleScreen extends StatelessWidget {
 
                 child: ElevatedButton(
                   onPressed: () {
+
                     Navigator.push(
                       context,
 
                       MaterialPageRoute(
                         builder: (context) =>
-                            const LoginScreen(),
+                            const LoginScreen(
+                          role: 'buyer',
+                        ),
                       ),
                     );
+
                   },
 
                   style: ElevatedButton.styleFrom(
@@ -90,14 +94,18 @@ class RoleScreen extends StatelessWidget {
 
                 child: OutlinedButton(
                   onPressed: () {
+
                     Navigator.push(
                       context,
 
                       MaterialPageRoute(
                         builder: (context) =>
-                            const LoginScreen(),
+                            const LoginScreen(
+                          role: 'jastiper',
+                        ),
                       ),
                     );
+
                   },
 
                   style: OutlinedButton.styleFrom(

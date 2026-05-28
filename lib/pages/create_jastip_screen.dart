@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CreateJastipScreen extends StatelessWidget {
   const CreateJastipScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final namaController = TextEditingController();
+    final deskripsiController = TextEditingController();
+    final hargaController = TextEditingController();
+    final stokController = TextEditingController();
+
     return Scaffold(
       backgroundColor: const Color(0xFFFDF7FF),
 
@@ -22,14 +30,6 @@ class CreateJastipScreen extends StatelessWidget {
             color: Color(0xFF4B5563),
           ),
         ),
-
-        title: const Text(
-          "Tambah Jastip",
-          style: TextStyle(
-            color: Color(0xFF4B5563),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
 
       body: SafeArea(
@@ -42,39 +42,29 @@ class CreateJastipScreen extends StatelessWidget {
 
               children: [
 
-                Center(
-                  child: Container(
-                    width: 150,
-                    height: 150,
-
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-
-                    child: const Icon(
-                      Icons.add_photo_alternate_outlined,
-                      size: 50,
-                      color: Color(0xFFD8B4FE),
-                    ),
+                const Text(
+                  "Tambah Jastip 🛍️",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4B5563),
                   ),
                 ),
 
-                const SizedBox(height: 15),
-
-                const Center(
-                  child: Text(
-                    "Upload Foto Merchandise",
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 35),
+                const SizedBox(height: 10),
 
                 const Text(
-                  "Nama Konser",
+                  "Tambahkan produk jastip baru",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                const Text(
+                  "Nama Barang",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
@@ -83,89 +73,10 @@ class CreateJastipScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
-                  decoration: InputDecoration(
-                    hintText: "Contoh: SEVENTEEN RIGHT HERE",
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  "Nama Merchandise",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "Contoh: Official Lightstick",
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  "Harga",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                TextField(
-                  keyboardType: TextInputType.number,
+                  controller: namaController,
 
                   decoration: InputDecoration(
-                    hintText: "Masukkan harga",
-
-                    prefixText: "Rp ",
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  "Stok",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                TextField(
-                  keyboardType: TextInputType.number,
-
-                  decoration: InputDecoration(
-                    hintText: "Masukkan stok",
+                    hintText: "Masukkan nama barang",
 
                     filled: true,
                     fillColor: Colors.white,
@@ -189,10 +100,65 @@ class CreateJastipScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 TextField(
-                  maxLines: 5,
+                  controller: deskripsiController,
+                  maxLines: 4,
 
                   decoration: InputDecoration(
-                    hintText: "Masukkan deskripsi merchandise",
+                    hintText: "Masukkan deskripsi barang",
+
+                    filled: true,
+                    fillColor: Colors.white,
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                const Text(
+                  "Harga",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                TextField(
+                  controller: hargaController,
+
+                  decoration: InputDecoration(
+                    hintText: "Masukkan harga",
+
+                    filled: true,
+                    fillColor: Colors.white,
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                const Text(
+                  "Stok",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                TextField(
+                  controller: stokController,
+
+                  decoration: InputDecoration(
+                    hintText: "Masukkan stok",
 
                     filled: true,
                     fillColor: Colors.white,
@@ -211,7 +177,47 @@ class CreateJastipScreen extends StatelessWidget {
                   height: 55,
 
                   child: ElevatedButton(
-                    onPressed: () {},
+
+                    onPressed: () async {
+
+                      var url = Uri.parse(
+                        "http://192.168.0.101/titipy_api/create_jastip.php",
+                      );
+
+                      var response = await http.post(
+                        url,
+
+                        body: {
+                          "nama_barang": namaController.text,
+                          "deskripsi": deskripsiController.text,
+                          "harga": hargaController.text,
+                          "stok": stokController.text,
+                        },
+                      );
+
+                      var data = jsonDecode(response.body);
+
+                      if (data["success"] == true) {
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Jastip berhasil ditambahkan"),
+                          ),
+                        );
+
+                        Navigator.pop(context);
+
+                      } else {
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Gagal tambah jastip"),
+                          ),
+                        );
+
+                      }
+
+                    },
 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFD8B4FE),

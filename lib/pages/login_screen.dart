@@ -7,7 +7,13 @@ import 'jastiper_home_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+
+  final String role;
+
+  const LoginScreen({
+    super.key,
+    required this.role,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +121,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () async {
 
                       var url = Uri.parse(
-                        "http://192.168.0.107/titipy_api/login.php",
+                        "http://192.168.0.101/titipy_api/login.php",
                       );
 
                       var response = await http.post(
@@ -141,9 +147,9 @@ class LoginScreen extends StatelessWidget {
                           const Duration(seconds: 1),
                         );
 
-                        String role = data["data"]["role"];
+                        String userRole = data["data"]["role"];
 
-                        if (role == "buyer") {
+                        if (userRole == "buyer") {
 
                           Navigator.pushReplacement(
                             context,
@@ -209,8 +215,8 @@ class LoginScreen extends StatelessWidget {
 
                         MaterialPageRoute(
                           builder: (context) =>
-                              const RegisterScreen(
-                            role: 'buyer',
+                              RegisterScreen(
+                            role: role,
                           ),
                         ),
                       );

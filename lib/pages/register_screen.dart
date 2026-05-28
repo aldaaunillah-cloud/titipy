@@ -147,7 +147,7 @@ class RegisterScreen extends StatelessWidget {
                     onPressed: () async {
 
                       var url = Uri.parse(
-                        "http://192.168.0.107/titipy_api/register.php",
+                        "http://192.168.0.101/titipy_api/register.php",
                       );
 
                       var response = await http.post(

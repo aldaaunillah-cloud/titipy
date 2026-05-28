@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'edit_jastip_screen.dart';
 
 class DetailJastipScreen extends StatelessWidget {
-  const DetailJastipScreen({super.key});
+
+  final Map data;
+
+  const DetailJastipScreen({
+    super.key,
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xFFFDF7FF),
 
@@ -63,9 +70,10 @@ class DetailJastipScreen extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                const Text(
-                  "SEVENTEEN RIGHT HERE",
-                  style: TextStyle(
+                Text(
+                  data["nama_barang"],
+
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF4B5563),
@@ -74,9 +82,10 @@ class DetailJastipScreen extends StatelessWidget {
 
                 const SizedBox(height: 10),
 
-                const Text(
-                  "Official Lightstick Ver.3",
-                  style: TextStyle(
+                Text(
+                  data["deskripsi"],
+
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Colors.grey,
                   ),
@@ -84,9 +93,10 @@ class DetailJastipScreen extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Rp850.000",
-                  style: TextStyle(
+                Text(
+                  "Rp ${data["harga"]}",
+
+                  style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFD8B4FE),
@@ -95,9 +105,10 @@ class DetailJastipScreen extends StatelessWidget {
 
                 const SizedBox(height: 15),
 
-                const Text(
-                  "Stock: 10",
-                  style: TextStyle(
+                Text(
+                  "Stock: ${data["stok"]}",
+
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF4B5563),
@@ -108,6 +119,7 @@ class DetailJastipScreen extends StatelessWidget {
 
                 const Text(
                   "Deskripsi",
+
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -117,9 +129,10 @@ class DetailJastipScreen extends StatelessWidget {
 
                 const SizedBox(height: 10),
 
-                const Text(
-                  "Official merchandise SEVENTEEN RIGHT HERE TOUR berupa lightstick resmi original dengan kondisi baru dan tersegel.",
-                  style: TextStyle(
+                Text(
+                  data["deskripsi"],
+
+                  style: const TextStyle(
                     fontSize: 15,
                     color: Colors.grey,
                     height: 1.7,
@@ -128,122 +141,46 @@ class DetailJastipScreen extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                Row(
-                  children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
 
-                    Expanded(
-                      child: SizedBox(
-                        height: 55,
+                  child: ElevatedButton(
 
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
+                    onPressed: () {
 
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const EditJastipScreen(),
-                              ),
-                            );
-                          },
+                      Navigator.push(
+                        context,
 
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                              color: Color(0xFFD8B4FE),
-                            ),
-
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(18),
-                            ),
-                          ),
-
-                          child: const Text(
-                            "Edit",
-                            style: TextStyle(
-                              color: Color(0xFFD8B4FE),
-                              fontSize: 16,
-                            ),
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EditJastipScreen(
+                            data: data,
                           ),
                         ),
+                      );
+
+                    },
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                      const Color(0xFFD8B4FE),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(18),
                       ),
                     ),
 
-                    const SizedBox(width: 15),
+                    child: const Text(
+                      "Edit",
 
-                    Expanded(
-                      child: SizedBox(
-                        height: 55,
-
-                        child: ElevatedButton(
-                          onPressed: () {
-
-                            showDialog(
-                              context: context,
-
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text(
-                                    "Hapus Jastip",
-                                  ),
-
-                                  content: const Text(
-                                    "Apakah kamu yakin ingin menghapus jastip ini?",
-                                  ),
-
-                                  actions: [
-
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-
-                                      child: const Text(
-                                        "Batal",
-                                      ),
-                                    ),
-
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      },
-
-                                      child: const Text(
-                                        "Hapus",
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-
-                                  ],
-                                );
-                              },
-                            );
-                          },
-
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(18),
-                            ),
-                          ),
-
-                          child: const Text(
-                            "Hapus",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
                       ),
                     ),
-
-                  ],
+                  ),
                 ),
 
               ],
