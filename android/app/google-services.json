@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "550070384388",
+    "project_id": "titipy-6b11e",
+    "storage_bucket": "titipy-6b11e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550070384388:android:4416df1939cbd0c1f60251",
+        "android_client_info": {
+          "package_name": "com.example.titipy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550070384388-psmikbv6k4smpjfpq027ts8vd8l6p13b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.titipy",
+            "certificate_hash": "15fcdc3e7c3a09f0fca41ca509e2cf0f94cfbf78"
+          }
+        },
+        {
+          "client_id": "550070384388-lue3u0j2u1ippr1dg0f7lk9lgaam7fhs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsh2QQsPXUKJt5_2J-HPWlveP6bki-7rU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550070384388-lue3u0j2u1ippr1dg0f7lk9lgaam7fhs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -33,12 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xFFFDF7FF),
 
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+          MainAxisAlignment.center,
 
           children: [
 
@@ -52,6 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             const Text(
               "Titipy",
+
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -63,6 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             const Text(
               "Trusted K-Pop Merchandise Jastip App",
+
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey,

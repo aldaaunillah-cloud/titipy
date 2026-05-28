@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-import 'buyer_home_screen.dart';
-import 'jastiper_home_screen.dart';
+import '../services/google_auth_service.dart';
+
+import 'buyer_detail_screen.dart';
+import 'jastiper_verification_screen.dart';
 import 'register_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
 
   final String role;
 
@@ -16,224 +16,289 @@ class LoginScreen extends StatelessWidget {
   });
 
   @override
+  State<LoginScreen> createState() =>
+      _LoginScreenState();
+}
+
+class _LoginScreenState
+    extends State<LoginScreen> {
+
+  TextEditingController
+  emailController =
+  TextEditingController();
+
+  TextEditingController
+  passwordController =
+  TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
 
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF7FF),
+      backgroundColor:
+      const Color(0xFFFDF7FF),
 
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
+          padding:
+          const EdgeInsets.all(24),
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
 
-              children: [
+            children: [
 
-                const SizedBox(height: 60),
+              const SizedBox(height: 60),
 
-                const Text(
-                  "Welcome Back 👋",
-                  style: TextStyle(
-                    fontSize: 34,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4B5563),
-                  ),
+              const Text(
+                "Welcome Back 👋",
+
+                style: TextStyle(
+                  fontSize: 34,
+                  fontWeight:
+                  FontWeight.bold,
+
+                  color:
+                  Color(0xFF4B5563),
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-                const Text(
-                  "Login untuk melanjutkan ke aplikasi Titipy",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
+              const Text(
+                "Login ke akun Titipy",
+
+                style: TextStyle(
+                  color: Colors.grey,
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              const SizedBox(height: 45),
 
-                const Text(
+              TextField(
+                controller:
+                emailController,
+
+                decoration:
+                InputDecoration(
+
+                  hintText:
                   "Email",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
+
+                  filled: true,
+                  fillColor:
+                  Colors.white,
+
+                  border:
+                  OutlineInputBorder(
+
+                    borderRadius:
+                    BorderRadius.circular(
+                        18),
+
+                    borderSide:
+                    BorderSide.none,
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
-                TextField(
-                  controller: emailController,
+              TextField(
+                controller:
+                passwordController,
 
-                  decoration: InputDecoration(
-                    hintText: "Masukkan email",
+                obscureText: true,
 
-                    filled: true,
-                    fillColor: Colors.white,
+                decoration:
+                InputDecoration(
 
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
+                  hintText:
                   "Password",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
+
+                  filled: true,
+                  fillColor:
+                  Colors.white,
+
+                  border:
+                  OutlineInputBorder(
+
+                    borderRadius:
+                    BorderRadius.circular(
+                        18),
+
+                    borderSide:
+                    BorderSide.none,
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              const SizedBox(height: 30),
 
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
+              SizedBox(
+                width: double.infinity,
+                height: 55,
 
-                  decoration: InputDecoration(
-                    hintText: "Masukkan password",
+                child: ElevatedButton(
 
-                    filled: true,
-                    fillColor: Colors.white,
+                  onPressed: () {
 
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
+                    Navigator.pushReplacement(
 
-                const SizedBox(height: 40),
+                      context,
 
-                SizedBox(
-                  width: double.infinity,
-                  height: 55,
+                      MaterialPageRoute(
 
-                  child: ElevatedButton(
+                        builder: (context) =>
 
-                    onPressed: () async {
+                        widget.role == "buyer"
 
-                      var url = Uri.parse(
-                        "http://192.168.0.101/titipy_api/login.php",
-                      );
+                            ? const BuyerDetailScreen()
 
-                      var response = await http.post(
-                        url,
-
-                        body: {
-                          "email": emailController.text,
-                          "password": passwordController.text,
-                        },
-                      );
-
-                      var data = jsonDecode(response.body);
-
-                      if (data["success"] == true) {
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Login berhasil"),
-                          ),
-                        );
-
-                        await Future.delayed(
-                          const Duration(seconds: 1),
-                        );
-
-                        String userRole = data["data"]["role"];
-
-                        if (userRole == "buyer") {
-
-                          Navigator.pushReplacement(
-                            context,
-
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const BuyerHomeScreen(),
-                            ),
-                          );
-
-                        } else {
-
-                          Navigator.pushReplacement(
-                            context,
-
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const JastiperHomeScreen(),
-                            ),
-                          );
-
-                        }
-
-                      } else {
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Email atau password salah"),
-                          ),
-                        );
-
-                      }
-
-                    },
-
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD8B4FE),
-
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
+                            : const JastiperVerificationScreen(),
                       ),
-                    ),
+                    );
 
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
+                  },
+
+                  style:
+                  ElevatedButton.styleFrom(
+
+                    backgroundColor:
+                    const Color(
+                        0xFFD8B4FE),
+
+                    shape:
+                    RoundedRectangleBorder(
+
+                      borderRadius:
+                      BorderRadius.circular(
+                          18),
+                    ),
+                  ),
+
+                  child: const Text(
+                    "Login",
+
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
                     ),
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 25),
+              const SizedBox(height: 20),
 
-                Center(
-                  child: TextButton(
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+
+                child: OutlinedButton.icon(
+
+                  onPressed: () async {
+
+                    var userCredential =
+                    await GoogleAuthService()
+                        .signInWithGoogle();
+
+                    if (userCredential != null) {
+
+                      Navigator.pushReplacement(
+
+                        context,
+
+                        MaterialPageRoute(
+
+                          builder: (context) =>
+
+                          widget.role == "buyer"
+
+                              ? const BuyerDetailScreen()
+
+                              : const JastiperVerificationScreen(),
+                        ),
+                      );
+                    }
+                  },
+
+                  icon: Image.network(
+                    "https://cdn-icons-png.flaticon.com/512/281/281764.png",
+                    height: 24,
+                  ),
+
+                  label: const Text(
+                    "Login dengan Google",
+
+                    style: TextStyle(
+                      color:
+                      Color(0xFF4B5563),
+
+                      fontSize: 16,
+                    ),
+                  ),
+
+                  style:
+                  OutlinedButton.styleFrom(
+
+                    side: const BorderSide(
+                      color:
+                      Color(0xFFD8B4FE),
+                    ),
+
+                    shape:
+                    RoundedRectangleBorder(
+
+                      borderRadius:
+                      BorderRadius.circular(
+                          18),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              Row(
+                mainAxisAlignment:
+                MainAxisAlignment.center,
+
+                children: [
+
+                  const Text(
+                    "Belum punya akun?",
+                  ),
+
+                  TextButton(
 
                     onPressed: () {
 
                       Navigator.push(
+
                         context,
 
                         MaterialPageRoute(
+
                           builder: (context) =>
                               RegisterScreen(
-                            role: role,
-                          ),
+                                role:
+                                widget.role,
+                              ),
                         ),
                       );
 
                     },
 
                     child: const Text(
-                      "Belum punya akun? Register",
-                      style: TextStyle(
-                        color: Color(0xFFD8B4FE),
-                      ),
+                      "Register",
                     ),
                   ),
-                ),
 
-              ],
-            ),
+                ],
+              ),
+
+            ],
           ),
         ),
       ),

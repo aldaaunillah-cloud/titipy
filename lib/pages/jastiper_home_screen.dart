@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'create_jastip_screen.dart';
 import 'edit_jastip_screen.dart';
+import 'profile_screen.dart';
 
 class JastiperHomeScreen extends StatefulWidget {
   const JastiperHomeScreen({super.key});
@@ -71,11 +72,37 @@ class _JastiperHomeScreenState
 
         title: const Text(
           "Jastip Saya",
+
           style: TextStyle(
             color: Color(0xFF4B5563),
             fontWeight: FontWeight.bold,
           ),
         ),
+
+        actions: [
+
+          IconButton(
+
+            onPressed: () {
+
+              Navigator.push(
+                context,
+
+                MaterialPageRoute(
+                  builder: (context) =>
+                  const ProfileScreen(),
+                ),
+              );
+
+            },
+
+            icon: const Icon(
+              Icons.person,
+              color: Color(0xFF4B5563),
+            ),
+          ),
+
+        ],
       ),
 
       body: ListView.builder(
@@ -94,7 +121,8 @@ class _JastiperHomeScreenState
             decoration: BoxDecoration(
               color: Colors.white,
 
-              borderRadius: BorderRadius.circular(20),
+              borderRadius:
+              BorderRadius.circular(20),
             ),
 
             child: Row(
@@ -138,6 +166,7 @@ class _JastiperHomeScreenState
                           fontSize: 18,
                           fontWeight:
                           FontWeight.bold,
+
                           color:
                           Color(0xFF4B5563),
                         ),
@@ -162,6 +191,7 @@ class _JastiperHomeScreenState
                         style: const TextStyle(
                           color:
                           Color(0xFFD8B4FE),
+
                           fontWeight:
                           FontWeight.bold,
                         ),
@@ -190,9 +220,9 @@ class _JastiperHomeScreenState
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       EditJastipScreen(
-                                    data:
-                                    dataJastip[index],
-                                  ),
+                                        data:
+                                        dataJastip[index],
+                                      ),
                                 ),
                               );
 
@@ -222,19 +252,74 @@ class _JastiperHomeScreenState
 
                             onPressed: () async {
 
-                              await deleteJastip(
-                                dataJastip[index]
-                                ["id"],
-                              );
+                              showDialog(
+                                context: context,
 
-                              ScaffoldMessenger.of(
-                                  context)
-                                  .showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    "Data berhasil dihapus",
-                                  ),
-                                ),
+                                builder: (context) {
+
+                                  return AlertDialog(
+
+                                    title: const Text(
+                                      "Konfirmasi",
+                                    ),
+
+                                    content: const Text(
+                                      "Yakin ingin menghapus data ini?",
+                                    ),
+
+                                    actions: [
+
+                                      TextButton(
+
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+
+                                        child: const Text(
+                                          "Batal",
+                                        ),
+                                      ),
+
+                                      ElevatedButton(
+
+                                        onPressed: () async {
+
+                                          Navigator.pop(context);
+
+                                          await deleteJastip(
+                                            dataJastip[index]["id"],
+                                          );
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                "Data berhasil dihapus",
+                                              ),
+                                            ),
+                                          );
+
+                                        },
+
+                                        style:
+                                        ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                          Colors.red,
+                                        ),
+
+                                        child: const Text(
+                                          "Hapus",
+
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  );
+
+                                },
                               );
 
                             },

@@ -1,208 +1,384 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'jastiper_home_screen.dart';
 
-class JastiperVerificationScreen extends StatelessWidget {
-  const JastiperVerificationScreen({super.key});
+class JastiperVerificationScreen extends StatefulWidget {
+
+  const JastiperVerificationScreen({
+    super.key,
+  });
+
+  @override
+  State<JastiperVerificationScreen> createState() =>
+      _JastiperVerificationScreenState();
+}
+
+class _JastiperVerificationScreenState
+    extends State<JastiperVerificationScreen> {
+
+  TextEditingController shopController =
+      TextEditingController();
+
+  TextEditingController phoneController =
+      TextEditingController();
+
+  TextEditingController addressController =
+      TextEditingController();
+
+  File? ktpImage;
+  File? selfieImage;
+
+  final ImagePicker picker =
+      ImagePicker();
+
+  Future pickKtp() async {
+
+    final pickedFile =
+        await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+
+      setState(() {
+
+        ktpImage =
+            File(pickedFile.path);
+
+      });
+    }
+  }
+
+  Future pickSelfie() async {
+
+    final pickedFile =
+        await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+
+      setState(() {
+
+        selfieImage =
+            File(pickedFile.path);
+
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF7FF),
+      backgroundColor:
+          const Color(0xFFFDF7FF),
 
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFDF7FF),
+        backgroundColor:
+            const Color(0xFFFDF7FF),
+
         elevation: 0,
 
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xFF4B5563),
+        title: const Text(
+          "Verifikasi Jastiper",
+          style: TextStyle(
+            color: Colors.black,
           ),
         ),
       ),
 
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
+      body: SingleChildScrollView(
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        padding:
+            const EdgeInsets.all(24),
 
-              children: [
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
 
-                const Text(
-                  "Verifikasi Jastipers 🪪",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4B5563),
-                  ),
-                ),
+          children: [
 
-                const SizedBox(height: 10),
+            const Text(
+              "Verifikasi Akun",
 
-                const Text(
-                  "Lengkapi data identitas untuk meningkatkan keamanan transaksi",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-
-                const SizedBox(height: 40),
-
-                Center(
-                  child: Container(
-                    width: 120,
-                    height: 120,
-
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-
-                    child: const Icon(
-                      Icons.add_a_photo_outlined,
-                      size: 40,
-                      color: Color(0xFFD8B4FE),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 15),
-
-                const Center(
-                  child: Text(
-                    "Upload Foto Profil",
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                const Text(
-                  "Nomor HP",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                TextField(
-                  keyboardType: TextInputType.phone,
-
-                  decoration: InputDecoration(
-                    hintText: "Masukkan nomor HP",
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  "Alamat Rumah",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                TextField(
-                  maxLines: 4,
-
-                  decoration: InputDecoration(
-                    hintText: "Masukkan alamat rumah lengkap",
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  "Instagram / Twitter",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "@username",
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 40),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 55,
-
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const JastiperHomeScreen(),
-                        ),
-                      );
-                    },
-
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD8B4FE),
-
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                    ),
-
-                    child: const Text(
-                      "Kirim Verifikasi",
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-              ],
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight:
+                    FontWeight.bold,
+              ),
             ),
-          ),
+
+            const SizedBox(height: 10),
+
+            const Text(
+              "Lengkapi data untuk menjadi jastiper terpercaya",
+
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 35),
+
+            TextField(
+              controller:
+                  shopController,
+
+              decoration:
+                  InputDecoration(
+
+                hintText:
+                    "Nama Toko",
+
+                filled: true,
+
+                fillColor:
+                    Colors.white,
+
+                border:
+                    OutlineInputBorder(
+
+                  borderRadius:
+                      BorderRadius.circular(
+                          18),
+
+                  borderSide:
+                      BorderSide.none,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            TextField(
+              controller:
+                  phoneController,
+
+              decoration:
+                  InputDecoration(
+
+                hintText:
+                    "Nomor HP",
+
+                filled: true,
+
+                fillColor:
+                    Colors.white,
+
+                border:
+                    OutlineInputBorder(
+
+                  borderRadius:
+                      BorderRadius.circular(
+                          18),
+
+                  borderSide:
+                      BorderSide.none,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            TextField(
+              controller:
+                  addressController,
+
+              maxLines: 3,
+
+              decoration:
+                  InputDecoration(
+
+                hintText:
+                    "Alamat",
+
+                filled: true,
+
+                fillColor:
+                    Colors.white,
+
+                border:
+                    OutlineInputBorder(
+
+                  borderRadius:
+                      BorderRadius.circular(
+                          18),
+
+                  borderSide:
+                      BorderSide.none,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
+            GestureDetector(
+
+              onTap: pickKtp,
+
+              child: Container(
+                width: double.infinity,
+                height: 140,
+
+                decoration:
+                    BoxDecoration(
+
+                  color: Colors.white,
+
+                  borderRadius:
+                      BorderRadius.circular(
+                          18),
+                ),
+
+                child: ktpImage == null
+
+                    ? const Column(
+                        mainAxisAlignment:
+                            MainAxisAlignment.center,
+
+                        children: [
+
+                          Icon(
+                            Icons.badge,
+                            size: 40,
+                            color: Color(
+                                0xFFD8B4FE),
+                          ),
+
+                          SizedBox(height: 10),
+
+                          Text(
+                            "Upload Foto KTP",
+                          ),
+
+                        ],
+                      )
+
+                    : ClipRRect(
+
+                        borderRadius:
+                            BorderRadius.circular(
+                                18),
+
+                        child: Image.file(
+                          ktpImage!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            GestureDetector(
+
+              onTap: pickSelfie,
+
+              child: Container(
+                width: double.infinity,
+                height: 140,
+
+                decoration:
+                    BoxDecoration(
+
+                  color: Colors.white,
+
+                  borderRadius:
+                      BorderRadius.circular(
+                          18),
+                ),
+
+                child: selfieImage == null
+
+                    ? const Column(
+                        mainAxisAlignment:
+                            MainAxisAlignment.center,
+
+                        children: [
+
+                          Icon(
+                            Icons.camera_alt,
+                            size: 40,
+                            color: Color(
+                                0xFFD8B4FE),
+                          ),
+
+                          SizedBox(height: 10),
+
+                          Text(
+                            "Upload Foto Diri",
+                          ),
+
+                        ],
+                      )
+
+                    : ClipRRect(
+
+                        borderRadius:
+                            BorderRadius.circular(
+                                18),
+
+                        child: Image.file(
+                          selfieImage!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+              ),
+            ),
+
+            const SizedBox(height: 35),
+
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+
+              child: ElevatedButton(
+
+                onPressed: () {
+
+                  Navigator.pushReplacement(
+
+                    context,
+
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const JastiperHomeScreen(),
+                    ),
+                  );
+                },
+
+                style:
+                    ElevatedButton.styleFrom(
+
+                  backgroundColor:
+                      const Color(
+                          0xFFD8B4FE),
+
+                  shape:
+                      RoundedRectangleBorder(
+
+                    borderRadius:
+                        BorderRadius.circular(
+                            18),
+                  ),
+                ),
+
+                child: const Text(
+                  "Kirim Verifikasi",
+
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+
+          ],
         ),
       ),
     );
