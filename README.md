@@ -1,16 +1,12 @@
-# titipy
+# Titipy
 
-A new Flutter project.
+Aplikasi marketplace jasa titip merchandise konser K-Pop berbasis Flutter, PHP Native, MySQL, WebSocket, dan Firebase Cloud Messaging.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Fitur
+- Login Google
+- Login Lokal
+- CRUD Jastip
+- Verifikasi Jastiper
+- Shared Preferences
+- WebSocket Realtime
+- Firebase Notification
