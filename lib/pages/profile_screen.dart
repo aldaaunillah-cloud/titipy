@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/google_auth_service.dart';
 import 'role_screen.dart';
@@ -18,7 +19,7 @@ class ProfileScreen extends StatelessWidget {
 
       appBar: AppBar(
         backgroundColor:
-        const Color(0xFFF6EFF8),
+            const Color(0xFFF6EFF8),
 
         elevation: 0,
 
@@ -44,8 +45,9 @@ class ProfileScreen extends StatelessWidget {
               radius: 50,
 
               backgroundImage:
-              NetworkImage(
-                user?.photoURL ?? ""),
+                  NetworkImage(
+                user?.photoURL ?? "",
+              ),
             ),
 
             const SizedBox(height: 20),
@@ -57,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight:
-                FontWeight.bold,
+                    FontWeight.bold,
               ),
             ),
 
@@ -84,23 +86,31 @@ class ProfileScreen extends StatelessWidget {
                   await GoogleAuthService()
                       .logout();
 
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+
+                  await prefs.setBool(
+                    "isLogin",
+                    false,
+                  );
+
                   Navigator.pushAndRemoveUntil(
                     context,
 
                     MaterialPageRoute(
                       builder: (context) =>
-                      const RoleScreen(),
+                          const RoleScreen(),
                     ),
 
-                        (route) => false,
+                    (route) => false,
                   );
 
                 },
 
                 style:
-                ElevatedButton.styleFrom(
+                    ElevatedButton.styleFrom(
                   backgroundColor:
-                  Colors.red,
+                      Colors.red,
                 ),
 
                 child: const Text(

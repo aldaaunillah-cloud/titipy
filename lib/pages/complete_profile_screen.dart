@@ -52,6 +52,11 @@ class _CompleteProfileScreenState
       true,
     );
 
+    await prefs.setBool(
+      "isLogin",
+      true,
+    );
+
     if (widget.role == "buyer") {
 
       Navigator.pushReplacement(
