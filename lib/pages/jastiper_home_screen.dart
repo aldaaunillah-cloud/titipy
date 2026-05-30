@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../config/api_config.dart';
+
 import 'create_jastip_screen.dart';
 import 'edit_jastip_screen.dart';
 import 'profile_screen.dart';
+import '../services/websocket_service.dart';
 
 class JastiperHomeScreen extends StatefulWidget {
   const JastiperHomeScreen({super.key});
@@ -22,7 +25,7 @@ class _JastiperHomeScreenState
   Future getJastip() async {
 
     var url = Uri.parse(
-      "http://192.168.0.101/titipy_api/get_jastip.php",
+      "${ApiConfig.baseUrl}/get_jastip.php",
     );
 
     var response = await http.get(url);
@@ -37,28 +40,37 @@ class _JastiperHomeScreenState
 
   Future deleteJastip(String id) async {
 
-    var url = Uri.parse(
-      "http://192.168.0.101/titipy_api/delete_jastip.php",
-    );
+  var url = Uri.parse(
+    "${ApiConfig.baseUrl}/delete_jastip.php",
+  );
 
-    await http.post(
-      url,
+  await http.post(
+    url,
 
-      body: {
-        "id": id,
-      },
-    );
+    body: {
+      "id": id,
+    },
+  );
 
-    getJastip();
+  WebSocketService().send("refresh");
 
-  }
+  getJastip();
+}
 
   @override
-  void initState() {
-    super.initState();
+void initState() {
+  super.initState();
 
-    getJastip();
-  }
+  getJastip();
+
+  WebSocketService().stream.listen((event) {
+
+    if (mounted) {
+      getJastip();
+    }
+
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +102,7 @@ class _JastiperHomeScreenState
 
                 MaterialPageRoute(
                   builder: (context) =>
-                  const ProfileScreen(),
+                      const ProfileScreen(),
                 ),
               );
 
@@ -122,12 +134,12 @@ class _JastiperHomeScreenState
               color: Colors.white,
 
               borderRadius:
-              BorderRadius.circular(20),
+                  BorderRadius.circular(20),
             ),
 
             child: Row(
               crossAxisAlignment:
-              CrossAxisAlignment.start,
+                  CrossAxisAlignment.start,
 
               children: [
 
@@ -139,7 +151,7 @@ class _JastiperHomeScreenState
                     color: const Color(0xFFD8B4FE),
 
                     borderRadius:
-                    BorderRadius.circular(18),
+                        BorderRadius.circular(18),
                   ),
 
                   child: const Icon(
@@ -154,21 +166,21 @@ class _JastiperHomeScreenState
                 Expanded(
                   child: Column(
                     crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                        CrossAxisAlignment.start,
 
                     children: [
 
                       Text(
                         dataJastip[index]
-                        ["nama_barang"],
+                            ["nama_barang"],
 
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight:
-                          FontWeight.bold,
+                              FontWeight.bold,
 
                           color:
-                          Color(0xFF4B5563),
+                              Color(0xFF4B5563),
                         ),
                       ),
 
@@ -176,7 +188,7 @@ class _JastiperHomeScreenState
 
                       Text(
                         dataJastip[index]
-                        ["deskripsi"],
+                            ["deskripsi"],
 
                         style: const TextStyle(
                           color: Colors.grey,
@@ -190,10 +202,10 @@ class _JastiperHomeScreenState
 
                         style: const TextStyle(
                           color:
-                          Color(0xFFD8B4FE),
+                              Color(0xFFD8B4FE),
 
                           fontWeight:
-                          FontWeight.bold,
+                              FontWeight.bold,
                         ),
                       ),
 
@@ -221,7 +233,7 @@ class _JastiperHomeScreenState
                                   builder: (context) =>
                                       EditJastipScreen(
                                         data:
-                                        dataJastip[index],
+                                            dataJastip[index],
                                       ),
                                 ),
                               );
@@ -231,10 +243,10 @@ class _JastiperHomeScreenState
                             },
 
                             style:
-                            ElevatedButton.styleFrom(
+                                ElevatedButton.styleFrom(
                               backgroundColor:
-                              const Color(
-                                  0xFFD8B4FE),
+                                  const Color(
+                                      0xFFD8B4FE),
                             ),
 
                             child: const Text(
@@ -302,9 +314,9 @@ class _JastiperHomeScreenState
                                         },
 
                                         style:
-                                        ElevatedButton.styleFrom(
+                                            ElevatedButton.styleFrom(
                                           backgroundColor:
-                                          Colors.red,
+                                              Colors.red,
                                         ),
 
                                         child: const Text(
@@ -325,9 +337,9 @@ class _JastiperHomeScreenState
                             },
 
                             style:
-                            ElevatedButton.styleFrom(
+                                ElevatedButton.styleFrom(
                               backgroundColor:
-                              Colors.red,
+                                  Colors.red,
                             ),
 
                             child: const Text(
@@ -354,9 +366,9 @@ class _JastiperHomeScreenState
       ),
 
       floatingActionButton:
-      FloatingActionButton(
+          FloatingActionButton(
         backgroundColor:
-        const Color(0xFFD8B4FE),
+            const Color(0xFFD8B4FE),
 
         onPressed: () async {
 
@@ -365,7 +377,7 @@ class _JastiperHomeScreenState
 
             MaterialPageRoute(
               builder: (context) =>
-              const CreateJastipScreen(),
+                  const CreateJastipScreen(),
             ),
           );
 

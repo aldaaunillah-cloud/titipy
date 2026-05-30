@@ -1,58 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import '../config/api_config.dart';
+import '../services/websocket_service.dart';
 
 import 'profile_screen.dart';
+import '../services/notification_service.dart';
 
 class BuyerHomeScreen extends StatefulWidget {
   const BuyerHomeScreen({super.key});
 
   @override
-  State<BuyerHomeScreen> createState() =>
-      _BuyerHomeScreenState();
+  State<BuyerHomeScreen> createState() => _BuyerHomeScreenState();
 }
 
-class _BuyerHomeScreenState
-    extends State<BuyerHomeScreen> {
-
+class _BuyerHomeScreenState extends State<BuyerHomeScreen> {
   int selectedIndex = 0;
 
   final List pages = [
-
     const HomePage(),
     const WishlistPage(),
     const ProfileScreen(),
-
   ];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor:
-      const Color(0xFFFDF7FF),
+      backgroundColor: const Color(0xFFFDF7FF),
 
       body: pages[selectedIndex],
 
-      bottomNavigationBar:
-      BottomNavigationBar(
-
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
 
         onTap: (index) {
-
           setState(() {
             selectedIndex = index;
           });
-
         },
 
-        selectedItemColor:
-        const Color(0xFFD8B4FE),
+        selectedItemColor: const Color(0xFFD8B4FE),
 
-        unselectedItemColor:
-        Colors.grey,
+        unselectedItemColor: Colors.grey,
 
         items: const [
-
           BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded),
             label: "Home",
@@ -67,53 +60,112 @@ class _BuyerHomeScreenState
             icon: Icon(Icons.person_outline),
             label: "Profile",
           ),
-
         ],
       ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  List dataJastip = [];
+
+  Future getJastip() async {
+    var url = Uri.parse("${ApiConfig.baseUrl}/get_jastip.php");
+
+    var response = await http.get(url);
+
+    var data = jsonDecode(response.body);
+
+    setState(() {
+      dataJastip = data["data"];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getJastip();
+
+    WebSocketService().stream.listen((event) async {
+
+  String title = "";
+  String body = "";
+
+  if (event == "create") {
+    title = "Jastip Baru";
+    body = "Produk baru telah ditambahkan";
+  }
+
+  else if (event == "update") {
+    title = "Jastip Diperbarui";
+    body = "Data produk telah diperbarui";
+  }
+
+  else if (event == "delete") {
+    title = "Jastip Dihapus";
+    body = "Produk telah dihapus";
+  }
+
+  if (title.isNotEmpty) {
+
+    await NotificationService
+        .flutterLocalNotificationsPlugin
+        .show(
+      0,
+      title,
+      body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'titipy_channel',
+          'Titipy Notification',
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
+      ),
+    );
+  }
+
+  if (mounted) {
+    getJastip();
+  }
+});
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
-          padding:
-          const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
 
           child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
 
             children: [
-
               Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                 children: [
-
                   Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: const [
-
                       Text(
                         "Hello, Alda 👋",
 
                         style: TextStyle(
                           fontSize: 28,
-                          fontWeight:
-                          FontWeight.bold,
+                          fontWeight: FontWeight.bold,
 
-                          color:
-                          Color(0xFF4B5563),
+                          color: Color(0xFF4B5563),
                         ),
                       ),
 
@@ -122,26 +174,18 @@ class HomePage extends StatelessWidget {
                       Text(
                         "Cari jastip konser favoritmu!",
 
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
+                        style: TextStyle(color: Colors.grey),
                       ),
-
                     ],
                   ),
 
                   CircleAvatar(
                     radius: 25,
 
-                    backgroundColor:
-                    Color(0xFFD8B4FE),
+                    backgroundColor: Color(0xFFD8B4FE),
 
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
+                    child: Icon(Icons.person, color: Colors.white),
                   ),
-
                 ],
               ),
 
@@ -149,23 +193,17 @@ class HomePage extends StatelessWidget {
 
               TextField(
                 decoration: InputDecoration(
-                  hintText:
-                  "Cari konser atau merchandise",
+                  hintText: "Cari konser atau merchandise",
 
-                  prefixIcon:
-                  const Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
 
                   filled: true,
                   fillColor: Colors.white,
 
-                  border:
-                  OutlineInputBorder(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
 
-                    borderRadius:
-                    BorderRadius.circular(18),
-
-                    borderSide:
-                    BorderSide.none,
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
@@ -177,33 +215,26 @@ class HomePage extends StatelessWidget {
 
                 style: TextStyle(
                   fontSize: 20,
-                  fontWeight:
-                  FontWeight.bold,
+                  fontWeight: FontWeight.bold,
 
-                  color:
-                  Color(0xFF4B5563),
+                  color: Color(0xFF4B5563),
                 ),
               ),
 
               const SizedBox(height: 20),
 
               SingleChildScrollView(
-                scrollDirection:
-                Axis.horizontal,
+                scrollDirection: Axis.horizontal,
 
                 child: Row(
                   children: [
-
-                    categoryItem(
-                        "SEVENTEEN"),
+                    categoryItem("SEVENTEEN"),
 
                     categoryItem("NCT"),
 
                     categoryItem("TXT"),
 
-                    categoryItem(
-                        "BLACKPINK"),
-
+                    categoryItem("BLACKPINK"),
                   ],
                 ),
               ),
@@ -215,40 +246,34 @@ class HomePage extends StatelessWidget {
 
                 style: TextStyle(
                   fontSize: 20,
-                  fontWeight:
-                  FontWeight.bold,
+                  fontWeight: FontWeight.bold,
 
-                  color:
-                  Color(0xFF4B5563),
+                  color: Color(0xFF4B5563),
                 ),
               ),
 
               const SizedBox(height: 20),
 
-              jastipCard(
-                concert:
-                "SEVENTEEN RIGHT HERE",
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
 
-                item:
-                "Official Lightstick Ver.3",
+                itemCount: dataJastip.length,
 
-                price:
-                "Rp850.000",
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+
+                    child: jastipCard(
+                      concert: dataJastip[index]["nama_barang"],
+
+                      item: dataJastip[index]["deskripsi"],
+
+                      price: "Rp ${dataJastip[index]["harga"]}",
+                    ),
+                  );
+                },
               ),
-
-              const SizedBox(height: 20),
-
-              jastipCard(
-                concert:
-                "NCT DREAM TOUR",
-
-                item:
-                "Official Hoodie",
-
-                price:
-                "Rp1.200.000",
-              ),
-
             ],
           ),
         ),
@@ -257,72 +282,48 @@ class HomePage extends StatelessWidget {
   }
 
   Widget categoryItem(String title) {
-
     return Container(
-      margin:
-      const EdgeInsets.only(right: 15),
+      margin: const EdgeInsets.only(right: 15),
 
-      padding:
-      const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 12,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
 
       decoration: BoxDecoration(
         color: Colors.white,
 
-        borderRadius:
-        BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16),
       ),
 
-      child: Text(
-        title,
-
-        style: const TextStyle(
-          fontWeight:
-          FontWeight.w600,
-        ),
-      ),
+      child: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
     );
   }
 
   Widget jastipCard({
-
     required String concert,
     required String item,
     required String price,
-
   }) {
-
     return Container(
       width: double.infinity,
 
-      padding:
-      const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
 
       decoration: BoxDecoration(
         color: Colors.white,
 
-        borderRadius:
-        BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24),
       ),
 
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
-
           Container(
             height: 160,
 
             decoration: BoxDecoration(
-              color:
-              const Color(0xFFE9D5FF),
+              color: const Color(0xFFE9D5FF),
 
-              borderRadius:
-              BorderRadius.circular(
-                  20),
+              borderRadius: BorderRadius.circular(20),
             ),
 
             child: const Center(
@@ -343,23 +344,15 @@ class HomePage extends StatelessWidget {
             style: const TextStyle(
               fontSize: 18,
 
-              fontWeight:
-              FontWeight.bold,
+              fontWeight: FontWeight.bold,
 
-              color:
-              Color(0xFF4B5563),
+              color: Color(0xFF4B5563),
             ),
           ),
 
           const SizedBox(height: 10),
 
-          Text(
-            item,
-
-            style: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
+          Text(item, style: const TextStyle(color: Colors.grey)),
 
           const SizedBox(height: 15),
 
@@ -369,14 +362,11 @@ class HomePage extends StatelessWidget {
             style: const TextStyle(
               fontSize: 18,
 
-              fontWeight:
-              FontWeight.bold,
+              fontWeight: FontWeight.bold,
 
-              color:
-              Color(0xFFD8B4FE),
+              color: Color(0xFFD8B4FE),
             ),
           ),
-
         ],
       ),
     );
@@ -388,11 +378,6 @@ class WishlistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return const Center(
-      child: Text(
-        "Wishlist",
-      ),
-    );
+    return const Center(child: Text("Wishlist"));
   }
 }

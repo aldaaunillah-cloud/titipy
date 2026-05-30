@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class EditJastipScreen extends StatefulWidget {
+import '../config/api_config.dart';
+import '../services/websocket_service.dart';
 
+class EditJastipScreen extends StatefulWidget {
   final Map data;
 
   const EditJastipScreen({
@@ -48,7 +50,7 @@ class _EditJastipScreenState
   Future updateJastip() async {
 
     var url = Uri.parse(
-      "http://192.168.0.101/titipy_api/update_jastip.php",
+      "${ApiConfig.baseUrl}/update_jastip.php",
     );
 
     var response = await http.post(
@@ -67,6 +69,8 @@ class _EditJastipScreenState
 
     if (data["success"] == true) {
 
+      WebSocketService().send("update");
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -76,6 +80,16 @@ class _EditJastipScreenState
       );
 
       Navigator.pop(context);
+
+    } else {
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Gagal update data",
+          ),
+        ),
+      );
 
     }
 

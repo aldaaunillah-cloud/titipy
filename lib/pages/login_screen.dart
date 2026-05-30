@@ -7,48 +7,32 @@ import 'jastiper_verification_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-
   final String role;
 
-  const LoginScreen({
-    super.key,
-    required this.role,
-  });
+  const LoginScreen({super.key, required this.role});
 
   @override
-  State<LoginScreen> createState() =>
-      _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState
-    extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
 
-  TextEditingController
-  emailController =
-  TextEditingController();
-
-  TextEditingController
-  passwordController =
-  TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor:
-      const Color(0xFFFDF7FF),
+      backgroundColor: const Color(0xFFFDF7FF),
 
       body: SafeArea(
         child: SingleChildScrollView(
-          padding:
-          const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
 
           child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
 
             children: [
-
               const SizedBox(height: 60),
 
               const Text(
@@ -56,11 +40,9 @@ class _LoginScreenState
 
                 style: TextStyle(
                   fontSize: 34,
-                  fontWeight:
-                  FontWeight.bold,
+                  fontWeight: FontWeight.bold,
 
-                  color:
-                  Color(0xFF4B5563),
+                  color: Color(0xFF4B5563),
                 ),
               ),
 
@@ -69,36 +51,24 @@ class _LoginScreenState
               const Text(
                 "Login ke akun Titipy",
 
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
+                style: TextStyle(color: Colors.grey),
               ),
 
               const SizedBox(height: 45),
 
               TextField(
-                controller:
-                emailController,
+                controller: emailController,
 
-                decoration:
-                InputDecoration(
-
-                  hintText:
-                  "Email",
+                decoration: InputDecoration(
+                  hintText: "Email",
 
                   filled: true,
-                  fillColor:
-                  Colors.white,
+                  fillColor: Colors.white,
 
-                  border:
-                  OutlineInputBorder(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
 
-                    borderRadius:
-                    BorderRadius.circular(
-                        18),
-
-                    borderSide:
-                    BorderSide.none,
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
@@ -106,30 +76,20 @@ class _LoginScreenState
               const SizedBox(height: 20),
 
               TextField(
-                controller:
-                passwordController,
+                controller: passwordController,
 
                 obscureText: true,
 
-                decoration:
-                InputDecoration(
-
-                  hintText:
-                  "Password",
+                decoration: InputDecoration(
+                  hintText: "Password",
 
                   filled: true,
-                  fillColor:
-                  Colors.white,
+                  fillColor: Colors.white,
 
-                  border:
-                  OutlineInputBorder(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
 
-                    borderRadius:
-                    BorderRadius.circular(
-                        18),
-
-                    borderSide:
-                    BorderSide.none,
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
@@ -141,50 +101,30 @@ class _LoginScreenState
                 height: 55,
 
                 child: ElevatedButton(
-
                   onPressed: () {
-
                     Navigator.pushReplacement(
-
                       context,
 
                       MaterialPageRoute(
-
-                        builder: (context) =>
-
-                        widget.role == "buyer"
-
+                        builder: (context) => widget.role == "buyer"
                             ? const BuyerDetailScreen()
-
                             : const JastiperVerificationScreen(),
                       ),
                     );
-
                   },
 
-                  style:
-                  ElevatedButton.styleFrom(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFD8B4FE),
 
-                    backgroundColor:
-                    const Color(
-                        0xFFD8B4FE),
-
-                    shape:
-                    RoundedRectangleBorder(
-
-                      borderRadius:
-                      BorderRadius.circular(
-                          18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
 
                   child: const Text(
                     "Login",
 
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
               ),
@@ -196,27 +136,17 @@ class _LoginScreenState
                 height: 55,
 
                 child: OutlinedButton.icon(
-
                   onPressed: () async {
-
-                    var userCredential =
-                    await GoogleAuthService()
+                    var userCredential = await GoogleAuthService()
                         .signInWithGoogle();
 
                     if (userCredential != null) {
-
                       Navigator.pushReplacement(
-
                         context,
 
                         MaterialPageRoute(
-
-                          builder: (context) =>
-
-                          widget.role == "buyer"
-
+                          builder: (context) => widget.role == "buyer"
                               ? const BuyerDetailScreen()
-
                               : const JastiperVerificationScreen(),
                         ),
                       );
@@ -231,28 +161,14 @@ class _LoginScreenState
                   label: const Text(
                     "Login dengan Google",
 
-                    style: TextStyle(
-                      color:
-                      Color(0xFF4B5563),
-
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: Color(0xFF4B5563), fontSize: 16),
                   ),
 
-                  style:
-                  OutlinedButton.styleFrom(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFFD8B4FE)),
 
-                    side: const BorderSide(
-                      color:
-                      Color(0xFFD8B4FE),
-                    ),
-
-                    shape:
-                    RoundedRectangleBorder(
-
-                      borderRadius:
-                      BorderRadius.circular(
-                          18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
                 ),
@@ -261,43 +177,27 @@ class _LoginScreenState
               const SizedBox(height: 30),
 
               Row(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
 
                 children: [
-
-                  const Text(
-                    "Belum punya akun?",
-                  ),
+                  const Text("Belum punya akun?"),
 
                   TextButton(
-
                     onPressed: () {
-
                       Navigator.push(
-
                         context,
 
                         MaterialPageRoute(
-
                           builder: (context) =>
-                              RegisterScreen(
-                                role:
-                                widget.role,
-                              ),
+                              RegisterScreen(role: widget.role),
                         ),
                       );
-
                     },
 
-                    child: const Text(
-                      "Register",
-                    ),
+                    child: const Text("Register"),
                   ),
-
                 ],
               ),
-
             ],
           ),
         ),

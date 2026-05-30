@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../config/api_config.dart';
+import '../services/websocket_service.dart';
+
 class CreateJastipScreen extends StatelessWidget {
   const CreateJastipScreen({super.key});
 
@@ -181,7 +184,7 @@ class CreateJastipScreen extends StatelessWidget {
                     onPressed: () async {
 
                       var url = Uri.parse(
-                        "http://192.168.0.101/titipy_api/create_jastip.php",
+                        "${ApiConfig.baseUrl}/create_jastip.php",
                       );
 
                       var response = await http.post(
@@ -199,9 +202,13 @@ class CreateJastipScreen extends StatelessWidget {
 
                       if (data["success"] == true) {
 
+                        WebSocketService().send("create");
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Jastip berhasil ditambahkan"),
+                            content: Text(
+                              "Jastip berhasil ditambahkan",
+                            ),
                           ),
                         );
 
@@ -211,7 +218,9 @@ class CreateJastipScreen extends StatelessWidget {
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Gagal tambah jastip"),
+                            content: Text(
+                              "Gagal tambah jastip",
+                            ),
                           ),
                         );
 
